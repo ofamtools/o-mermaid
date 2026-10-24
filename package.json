@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "bundle": "bun renderer/build.js"
+  },
+  "dependencies": {
+    "beautiful-mermaid": "1.1.3"
+  }
+}
