@@ -10,7 +10,7 @@ The CLI, argument parsing, file handling, HTML wrapping, and browser lifecycle a
 
 ## Build and install
 
-Requires Go 1.26+, sibling checkouts of `../oden` and `../ochazuke`, and Chrome or Chromium for diagram conversion. `go.mod` uses local replacements for those two libraries. Theme listing, help, the picker, and wrapping an existing SVG do not require Chrome.
+Requires Go 1.26+ and Chrome or Chromium for diagram conversion. oden and ochazuke are required at their tags (`v0.1.0`); an untracked `go.work` (`go work init . && go work use ../oden ../ochazuke`) builds against the sibling checkouts, and `GOWORK=off` builds from the tags as a fresh clone does. Theme listing, help, the picker, and wrapping an existing SVG do not require Chrome.
 
 ```sh
 go build -o mtm-mermaid .
