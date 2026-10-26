@@ -1,3 +1,5 @@
 .DS_Store
 /node_modules/
 /mtm-mermaid
+go.work
+go.work.sum
