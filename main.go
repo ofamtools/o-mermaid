@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/unixsuperhero/mtm-mermaid/renderer"
-	"github.com/unixsuperhero/oden"
+	"ofam.dev/mtm-mermaid/renderer"
+	"ofam.dev/oden"
 )
 
 func main() {

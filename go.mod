@@ -1,12 +1,12 @@
-module github.com/unixsuperhero/mtm-mermaid
+module ofam.dev/mtm-mermaid
 
 go 1.26.0
 
 require (
 	charm.land/bubbletea/v2 v2.1.0
 	github.com/chromedp/chromedp v0.21.0
-	github.com/unixsuperhero/ochazuke v0.9.0
-	github.com/unixsuperhero/oden v0.1.1
+	ofam.dev/ochazuke v0.9.0
+	ofam.dev/oden v0.1.1
 )
 
 require (

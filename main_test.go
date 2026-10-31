@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/unixsuperhero/ochazuke"
+	"ofam.dev/ochazuke"
 )
 
 func TestWrapAndOverwriteProtection(t *testing.T) {
