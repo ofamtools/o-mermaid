@@ -5,8 +5,8 @@ go 1.26.0
 require (
 	charm.land/bubbletea/v2 v2.1.0
 	github.com/chromedp/chromedp v0.21.0
-	ofam.dev/ochazuke v0.9.0
-	ofam.dev/oden v0.1.1
+	ofam.dev/ochazuke v0.76.0
+	ofam.dev/oden v0.2.0
 )
 
 require (
@@ -26,6 +26,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.30 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
+	github.com/tailscale/hujson v0.0.0-20260727124030-b80ff77dac4f // indirect
 	github.com/xo/terminfo v1.0.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
