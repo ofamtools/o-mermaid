@@ -1,6 +1,18 @@
-# o-mermaid
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <img alt="o-mermaid" src="assets/logo-light.svg" width="360">
+  </picture>
+  <br>
+  <a href="https://github.com/ofamtools/o-mermaid/tags"><img alt="Latest tag" src="https://img.shields.io/github/v/tag/ofamtools/o-mermaid"></a>
+  <a href="https://pkg.go.dev/ofam.dev/o-mermaid"><img alt="Go Reference" src="https://pkg.go.dev/badge/ofam.dev/o-mermaid.svg"></a>
+  <a href="go.mod"><img alt="Go version" src="https://img.shields.io/github/go-mod/go-version/ofamtools/o-mermaid"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/ofamtools/o-mermaid"></a>
+</p>
 
-Go rewrite of the [Beautiful Mermaid skill](https://github.com/intellectronica/agent-skills/tree/main/skills/beautiful-mermaid) scripts. Converts Mermaid files to SVG, PNG, and HTML.
+<p align="center">Converts Mermaid diagrams to SVG, PNG and HTML with the embedded Beautiful Mermaid engine, using headless Chrome; reached in mtm as <code>mtm mermaid</code>.</p>
+
+Go rewrite of the [Beautiful Mermaid skill](https://github.com/intellectronica/agent-skills/tree/main/skills/beautiful-mermaid) scripts.
 
 - **oden** owns subcommands, help, JSON discovery, and executable extensions.
 - **ochazuke** supplies the interactive file/folder picker.
@@ -10,14 +22,15 @@ Go rewrite of the [Beautiful Mermaid skill](https://github.com/intellectronica/a
 
 The CLI, argument parsing, file handling, HTML wrapping, and browser lifecycle are Go. Diagram parsing/layout remains the upstream Beautiful Mermaid JavaScript engine, embedded in the binary and executed in headless Chrome. This is not a native-Go port of that engine.
 
-## Build and install
+## Install
 
-Requires Go 1.26+ and Chrome or Chromium for diagram conversion. oden and ochazuke are required at their tags (`v0.1.0`); an untracked `go.work` (`go work init . && go work use ../oden ../ochazuke`) builds against the sibling checkouts, and `GOWORK=off` builds from the tags as a fresh clone does. Theme listing, help, the picker, and wrapping an existing SVG do not require Chrome.
+Requires Go 1.26+ and Chrome or Chromium for diagram conversion. Theme listing, help, the picker, and wrapping an existing SVG do not require Chrome.
 
 ```sh
-go build -o o-mermaid .
 go install ofam.dev/o-mermaid@latest
 ```
+
+From a checkout, `go build -o o-mermaid .` builds against the oden and ochazuke tags in [go.mod](go.mod); an untracked `go.work` (`go work init . && go work use ../oden ../ochazuke`) builds against sibling checkouts instead, and `GOWORK=off` ignores it.
 
 Put Go's bin directory on `PATH`. With matomeru installed, `mtm mermaid` runs the `o-mermaid` on PATH:
 
@@ -37,7 +50,7 @@ An older `mtm` that does not discover family tools will not recognize `mtm merma
 
 The checked-in renderer bundle means ordinary Go builds and installed binaries do not need Node, Bun, npm, or runtime package downloads. Chrome is auto-detected; `--chrome /path/to/chromium` overrides its location.
 
-## Commands
+## Usage
 
 ```sh
 o-mermaid themes

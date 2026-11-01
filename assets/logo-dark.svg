@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 545 112" width="545" height="112" role="img" aria-label="o-mermaid">
+<title>o-mermaid</title>
+<g transform="translate(2 12)"><rect x="4" y="54" width="36" height="28" rx="7" fill="#b49cff"></rect><path d="M15 68H29" fill="none" stroke="#efeaff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M40 68H48C60 68 64 56 64 44V30" fill="none" stroke="#5fd0c2" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M64 32C58 24 52 18 42 15C53 10 61 12 64 18C67 12 75 10 86 15C76 18 70 24 64 32Z" fill="#5fd0c2"></path></g>
+<path d="M132 44a20 20 0 1 0 0.01 0M167 64h16M198 44V84M198 57a13 13 0 0 1 26 0V84M224 57a13 13 0 0 1 26 0V84M265 64H305A20 20 0 1 0 299.1 78.1M320 44V84M320 64a20 20 0 0 1 20 -20h4M359 44V84M359 57a13 13 0 0 1 26 0V84M385 57a13 13 0 0 1 26 0V84M446 44a20 20 0 1 0 0.01 0M466 44V84M481 44V84M481 24h0.01M516 44a20 20 0 1 0 0.01 0M536 18V84" fill="none" stroke="#f1edff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
