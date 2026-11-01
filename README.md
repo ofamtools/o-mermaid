@@ -27,6 +27,7 @@ The CLI, argument parsing, file handling, HTML wrapping, and browser lifecycle a
 Requires Go 1.26+ and Chrome or Chromium for diagram conversion. Theme listing, help, the picker, and wrapping an existing SVG do not require Chrome.
 
 ```sh
+go install ofam.dev/oden/cmd/o@latest   # oden's o: `o mermaid` runs o-mermaid, no dash needed
 go install ofam.dev/o-mermaid@latest
 ```
 
@@ -53,13 +54,13 @@ The checked-in renderer bundle means ordinary Go builds and installed binaries d
 ## Usage
 
 ```sh
-o-mermaid themes
-o-mermaid themes --json
-o-mermaid svg diagram.mmd
-o-mermaid png diagram.mmd --theme tokyo-night
-o-mermaid html diagram.mmd --padding 60
-o-mermaid convert diagram.mmd --format png --output ./exports/
-o-mermaid wrap diagram.svg --output diagram.html --background '#1a1b26'
+o mermaid themes
+o mermaid themes --json
+o mermaid svg diagram.mmd
+o mermaid png diagram.mmd --theme tokyo-night
+o mermaid html diagram.mmd --padding 60
+o mermaid convert diagram.mmd --format png --output ./exports/
+o mermaid wrap diagram.svg --output diagram.html --background '#1a1b26'
 ```
 
 `./exports/` must already exist. SVG, PNG, and HTML commands each produce only the requested format. Run both `svg` and `png` when both files are wanted.
@@ -67,8 +68,8 @@ o-mermaid wrap diagram.svg --output diagram.html --background '#1a1b26'
 Input can be a positional filename, `--input FILE` / `-i FILE`, inline `--code TEXT` / `-c TEXT`, or `--input -` for stdin. Provide exactly one source. Flags may appear before or after the filename.
 
 ```sh
-printf 'graph TD\n  A[Input] --> B[Output]\n' | o-mermaid svg -i - -o diagram.svg
-o-mermaid svg diagram.mmd --output -
+printf 'graph TD\n  A[Input] --> B[Output]\n' | o mermaid svg -i - -o diagram.svg
+o mermaid svg diagram.mmd --output -
 ```
 
 Use a newline after the diagram header. The bundled upstream parser rejects one-line input such as `graph TD; A-->B`. Flowchart, sequence, state, class, and entity-relationship diagrams are supported; this is not the complete Mermaid.js grammar. See [syntax reference](skill/references/mermaid-syntax.md).
@@ -84,10 +85,10 @@ The HTML wrapper embeds SVG as an image, so SVG scripts do not execute in the wr
 ## File and folder selection
 
 ```sh
-o-mermaid pick --kind file
-o-mermaid pick --kind dir --path ./
-o-mermaid svg "$(o-mermaid pick --kind file)" \
-  --output "$(o-mermaid pick --kind dir)"
+o mermaid pick --kind file
+o mermaid pick --kind dir --path ./
+o mermaid svg "$(o mermaid pick --kind file)" \
+  --output "$(o mermaid pick --kind dir)"
 ```
 
 The picker displays on stderr and prints the accepted absolute path on stdout. Ctrl-O opens the shared ochazuke browser. Ctrl-N/Ctrl-P move the highlight, Enter opens a directory or chooses a file, Ctrl-S chooses the highlighted file/directory, and Escape cancels browsing. Back in the path field, Enter accepts and exits; Ctrl-C cancels the command. For directory selection, the browser also offers the current directory as a row.
@@ -95,11 +96,11 @@ The picker displays on stderr and prints the accepted absolute path on stdout. C
 ## Discovery and extensions
 
 ```sh
-o-mermaid commands
-o-mermaid which png
+o mermaid commands
+o mermaid which png
 ```
 
-Install an executable named `o-mermaid-NAME` on `PATH` to add `o-mermaid NAME`. It appears in help and the JSON catalog. Built-in command names take precedence. The same hierarchy works through `mtm mermaid NAME`.
+Install an executable named `o-mermaid-NAME` on `PATH` to add `o mermaid NAME`. It appears in help and the JSON catalog. Built-in command names take precedence. The same hierarchy works through `mtm mermaid NAME`.
 
 ## Updating the embedded engine
 
