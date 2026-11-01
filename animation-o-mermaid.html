@@ -168,19 +168,19 @@ body{display:grid;place-items:center}
 // before the next block replaces it; "@N|" puts the line in glow group N
 // (lines of one group light up together, across panels).
 const SHOW_CONFIG = {
-  modelLabel: "mtm-mermaid",
+  modelLabel: "o-mermaid",
   youLabel: "you",
-  brand: "o family · mtm-mermaid",
+  brand: "o family · o-mermaid",
   intro: {
-    kicker: "o family · mtm-mermaid",
+    kicker: "o family · o-mermaid",
     head: "Mermaid to [[SVG, PNG and HTML]] in [[one Go binary]]",
     sub: "a rewrite of the Beautiful Mermaid skill on oden and ochazuke",
   },
   opener: "i just want a png of my diagram.\nwhy is that five steps and a browser skill?",
   outro: {
-    kicker: "mtm-mermaid",
+    kicker: "o-mermaid",
     head: "One binary, [[no intermediate files,]] [[and a place in the family.]]",
-    sub: "go install . · mtm mermaid help · ofam.dev/mtm-mermaid",
+    sub: "go install . · mtm mermaid help · ofam.dev/o-mermaid",
   },
 };
 const params = new URLSearchParams(location.search);
@@ -210,17 +210,17 @@ const OLD_WORKFLOW = [
 ];
 const NEW_WORKFLOW = [
   "# the Go rewrite",
-  "@1|mtm-mermaid png diagram.mmd --theme tokyo-night",
+  "@1|o-mermaid png diagram.mmd --theme tokyo-night",
   "",
   "# or one command per format",
-  "mtm-mermaid svg diagram.mmd",
-  "mtm-mermaid html diagram.mmd --padding 60",
-  "mtm-mermaid convert diagram.mmd --format png \\",
+  "o-mermaid svg diagram.mmd",
+  "o-mermaid html diagram.mmd --padding 60",
+  "o-mermaid convert diagram.mmd --format png \\",
   "  --output ./exports/",
 ];
 const HELP = [
-  "$ mtm-mermaid help",
-  "usage: mtm-mermaid COMMAND [ARGS...]",
+  "$ o-mermaid help",
+  "usage: o-mermaid COMMAND [ARGS...]",
   "",
   "Human commands:",
   "  convert   convert Mermaid to SVG, PNG or HTML (--format)",
@@ -236,7 +236,7 @@ const HELP = [
   "  catalog  command  commands  state",
 ];
 const THEMES = [
-  "$ mtm-mermaid themes",
+  "$ o-mermaid themes",
   "catppuccin-latte       #eff1f5  #4c4f69",
   "catppuccin-mocha       #1e1e2e  #cdd6f4",
   "default                #f5f5f5  #333333",
@@ -257,21 +257,21 @@ const THEMES = [
 ];
 const PIPE = [
   "$ printf 'graph TD\\n  A[Input] --> B[Output]\\n' \\",
-  "    | mtm-mermaid svg -i - -o diagram.svg",
+  "    | o-mermaid svg -i - -o diagram.svg",
   "diagram.svg",
   "",
-  "$ mtm-mermaid svg seq.mmd --theme tokyo-night -o - | head -1",
+  "$ o-mermaid svg seq.mmd --theme tokyo-night -o - | head -1",
   "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 280 200\"",
   "  width=\"280\" height=\"200\" style=\"--bg:#1a1b26;--fg:#a9b1d6;…\">",
 ];
 const GUARDS = [
-  "$ mtm-mermaid wrap diagram.svg --output diagram.html",
+  "$ o-mermaid wrap diagram.svg --output diagram.html",
   "diagram.html",
-  "$ mtm-mermaid wrap diagram.svg --output diagram.html",
-  "@1|mtm-mermaid: output exists: diagram.html (use --force)",
+  "$ o-mermaid wrap diagram.svg --output diagram.html",
+  "@1|o-mermaid: output exists: diagram.html (use --force)",
   "",
-  "$ mtm-mermaid wrap diagram.svg --output diagram.svg --force",
-  "@2|mtm-mermaid: output must not replace the input",
+  "$ o-mermaid wrap diagram.svg --output diagram.svg --force",
+  "@2|o-mermaid: output must not replace the input",
 ];
 const GUARD_TEST = [
   "// main_test.go · TestWrapAndOverwriteProtection",
@@ -283,8 +283,8 @@ const GUARD_TEST = [
   "}",
 ];
 const PICK = [
-  "$ mtm-mermaid svg \"$(mtm-mermaid pick --kind file)\" \\",
-  "    --output \"$(mtm-mermaid pick --kind dir)\"",
+  "$ o-mermaid svg \"$(o-mermaid pick --kind file)\" \\",
+  "    --output \"$(o-mermaid pick --kind dir)\"",
   "",
   "// picker.go: an ochazuke runtime with one path input",
   "r := ochazuke.NewRuntime()",
@@ -310,11 +310,11 @@ const CHAPTERS = [
       { who: "model", text: [
         "A Go CLI that converts Mermaid files to SVG, PNG and HTML. [[oden owns the subcommands, help and JSON discovery;]] ochazuke supplies the file picker.",
         "Layout is still the upstream Beautiful Mermaid engine, embedded in the binary and run in headless Chrome. [[No Node, Bun or npm at runtime.]]",
-      ], code: { blocks: [{ label: "mtm-mermaid help · source column cut", lines: HELP }] } },
+      ], code: { blocks: [{ label: "o-mermaid help · source column cut", lines: HELP }] } },
       { who: "you", text: "which [[themes]] do i get?" },
       { who: "model", text: [
         "Seventeen, each a background and a foreground. Pass one with `--theme`; [[an unknown name fails before Chrome starts.]]",
-      ], code: { lang: "md", blocks: [{ label: "mtm-mermaid themes", lines: THEMES }] }, links: true },
+      ], code: { lang: "md", blocks: [{ label: "o-mermaid themes", lines: THEMES }] }, links: true },
     ]},
   ],
 },
@@ -352,7 +352,7 @@ const CHAPTERS = [
       targets: [
         { name: "help", verb: "the help lists it", lines: ["themes  (inline)  list theme names and colors (--json)"] },
         { name: "commands", verb: "the JSON catalog carries it", lines: ["{ \"name\": \"themes\", \"kind\": \"inline\",", "  \"summary\": \"list theme names and colors (--json)\" }"] },
-        { name: "which", verb: "which resolves it", lines: ["$ mtm-mermaid which themes", "themes inline mtm-mermaid/main.go:36"] },
+        { name: "which", verb: "which resolves it", lines: ["$ o-mermaid which themes", "themes inline o-mermaid/main.go:36"] },
         { name: "mtm", verb: "matomeru discovers it", lines: ["$ mtm mermaid themes", "<faint>no change to matomeru needed</faint>"] },
       ],
       glow: ["themes", "list theme names"],
@@ -364,7 +364,7 @@ const CHAPTERS = [
       ], code: { blocks: [{ label: "README.md · picker.go", lines: PICK }] } },
       { who: "you", text: "can i add my own commands?" },
       { who: "model", text: [
-        "Put an executable named `mtm-mermaid-NAME` on your PATH. [[It shows up in help and the JSON catalog, and through `mtm mermaid NAME` too.]]",
+        "Put an executable named `o-mermaid-NAME` on your PATH. [[It shows up in help and the JSON catalog, and through `mtm mermaid NAME` too.]]",
       ], cards: [
         { cls: "good", title: "What it does", items: ["!svg, png, html, convert, wrap", "17 themes, --background, --padding", "stdin, stdout, inline --code", "one-minute deadline, Ctrl-C cancels"] },
         { cls: "risk", title: "What it isn't", items: ["Not a native-Go port of the engine", "Five diagram families, not all of Mermaid.js", "Chrome or Chromium needed to render"] },

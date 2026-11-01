@@ -14,18 +14,18 @@ import (
 	"strings"
 	"time"
 
-	"ofam.dev/mtm-mermaid/renderer"
+	"ofam.dev/o-mermaid/renderer"
 	"ofam.dev/oden"
 )
 
 func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
-	os.Exit(oden.Report(os.Stderr, "mtm-mermaid", commands(os.Args[1:]).Run(ctx)))
+	os.Exit(oden.Report(os.Stderr, "o-mermaid", commands(os.Args[1:]).Run(ctx)))
 }
 
 func commands(args []string) *oden.App {
-	app := oden.New("mtm-mermaid", args, oden.WithBuiltins())
+	app := oden.New("o-mermaid", args, oden.WithBuiltins())
 	app.Default = func(_ context.Context, args []string) error {
 		if len(args) != 0 {
 			return fmt.Errorf("unknown command %q; run help", args[0])

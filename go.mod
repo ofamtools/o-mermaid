@@ -1,4 +1,4 @@
-module ofam.dev/mtm-mermaid
+module ofam.dev/o-mermaid
 
 go 1.26.0
 

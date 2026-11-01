@@ -1,10 +1,12 @@
-# mtm-mermaid
+# o-mermaid
 
 Go rewrite of the [Beautiful Mermaid skill](https://github.com/intellectronica/agent-skills/tree/main/skills/beautiful-mermaid) scripts. Converts Mermaid files to SVG, PNG, and HTML.
 
 - **oden** owns subcommands, help, JSON discovery, and executable extensions.
 - **ochazuke** supplies the interactive file/folder picker.
-- **matomeru** discovers the installed `mtm-mermaid` executable as `mtm mermaid`. No changes to matomeru are required.
+- **matomeru** reaches the installed `o-mermaid` executable as `mtm mermaid`. No changes to matomeru are required.
+
+`o-mermaid` is an o-family extension: an `o-mermaid` executable on PATH is discoverable by the family's `o` and `mtm` commands, just like `o-cmds` or `o-git`. It was called `mtm-mermaid` (module `ofam.dev/mtm-mermaid`) before the rename; see the [CHANGELOG](CHANGELOG.md).
 
 The CLI, argument parsing, file handling, HTML wrapping, and browser lifecycle are Go. Diagram parsing/layout remains the upstream Beautiful Mermaid JavaScript engine, embedded in the binary and executed in headless Chrome. This is not a native-Go port of that engine.
 
@@ -13,31 +15,38 @@ The CLI, argument parsing, file handling, HTML wrapping, and browser lifecycle a
 Requires Go 1.26+ and Chrome or Chromium for diagram conversion. oden and ochazuke are required at their tags (`v0.1.0`); an untracked `go.work` (`go work init . && go work use ../oden ../ochazuke`) builds against the sibling checkouts, and `GOWORK=off` builds from the tags as a fresh clone does. Theme listing, help, the picker, and wrapping an existing SVG do not require Chrome.
 
 ```sh
-go build -o mtm-mermaid .
-go install .
+go build -o o-mermaid .
+go install ofam.dev/o-mermaid@latest
 ```
 
-Put Go's bin directory on `PATH`. With the oden-enabled matomeru installed:
+Put Go's bin directory on `PATH`. With matomeru installed, `mtm mermaid` runs the `o-mermaid` on PATH:
 
 ```sh
 mtm mermaid help
 mtm mermaid themes
 ```
 
-An older `mtm` without oden discovery will not recognize this command. Run `mtm-mermaid` directly or rebuild matomeru's `./cmd/mtm`.
+To mount its catalog in matomeru as the `mermaid` extension (listed on mtm's Extensions page), register it once; mtm finds the bin as `o-NAME` on PATH, so the name stays `mermaid`:
+
+```sh
+mtm extension register mermaid
+mtm extension register mermaid --bin ~/bin/o-mermaid   # or name the bin
+```
+
+An older `mtm` that does not discover family tools will not recognize `mtm mermaid`. Run `o-mermaid` directly or rebuild matomeru's `./cmd/mtm`.
 
 The checked-in renderer bundle means ordinary Go builds and installed binaries do not need Node, Bun, npm, or runtime package downloads. Chrome is auto-detected; `--chrome /path/to/chromium` overrides its location.
 
 ## Commands
 
 ```sh
-mtm-mermaid themes
-mtm-mermaid themes --json
-mtm-mermaid svg diagram.mmd
-mtm-mermaid png diagram.mmd --theme tokyo-night
-mtm-mermaid html diagram.mmd --padding 60
-mtm-mermaid convert diagram.mmd --format png --output ./exports/
-mtm-mermaid wrap diagram.svg --output diagram.html --background '#1a1b26'
+o-mermaid themes
+o-mermaid themes --json
+o-mermaid svg diagram.mmd
+o-mermaid png diagram.mmd --theme tokyo-night
+o-mermaid html diagram.mmd --padding 60
+o-mermaid convert diagram.mmd --format png --output ./exports/
+o-mermaid wrap diagram.svg --output diagram.html --background '#1a1b26'
 ```
 
 `./exports/` must already exist. SVG, PNG, and HTML commands each produce only the requested format. Run both `svg` and `png` when both files are wanted.
@@ -45,8 +54,8 @@ mtm-mermaid wrap diagram.svg --output diagram.html --background '#1a1b26'
 Input can be a positional filename, `--input FILE` / `-i FILE`, inline `--code TEXT` / `-c TEXT`, or `--input -` for stdin. Provide exactly one source. Flags may appear before or after the filename.
 
 ```sh
-printf 'graph TD\n  A[Input] --> B[Output]\n' | mtm-mermaid svg -i - -o diagram.svg
-mtm-mermaid svg diagram.mmd --output -
+printf 'graph TD\n  A[Input] --> B[Output]\n' | o-mermaid svg -i - -o diagram.svg
+o-mermaid svg diagram.mmd --output -
 ```
 
 Use a newline after the diagram header. The bundled upstream parser rejects one-line input such as `graph TD; A-->B`. Flowchart, sequence, state, class, and entity-relationship diagrams are supported; this is not the complete Mermaid.js grammar. See [syntax reference](skill/references/mermaid-syntax.md).
@@ -62,10 +71,10 @@ The HTML wrapper embeds SVG as an image, so SVG scripts do not execute in the wr
 ## File and folder selection
 
 ```sh
-mtm-mermaid pick --kind file
-mtm-mermaid pick --kind dir --path ./
-mtm-mermaid svg "$(mtm-mermaid pick --kind file)" \
-  --output "$(mtm-mermaid pick --kind dir)"
+o-mermaid pick --kind file
+o-mermaid pick --kind dir --path ./
+o-mermaid svg "$(o-mermaid pick --kind file)" \
+  --output "$(o-mermaid pick --kind dir)"
 ```
 
 The picker displays on stderr and prints the accepted absolute path on stdout. Ctrl-O opens the shared ochazuke browser. Ctrl-N/Ctrl-P move the highlight, Enter opens a directory or chooses a file, Ctrl-S chooses the highlighted file/directory, and Escape cancels browsing. Back in the path field, Enter accepts and exits; Ctrl-C cancels the command. For directory selection, the browser also offers the current directory as a row.
@@ -73,11 +82,11 @@ The picker displays on stderr and prints the accepted absolute path on stdout. C
 ## Discovery and extensions
 
 ```sh
-mtm-mermaid commands
-mtm-mermaid which png
+o-mermaid commands
+o-mermaid which png
 ```
 
-Install an executable named `mtm-mermaid-NAME` on `PATH` to add `mtm-mermaid NAME`. It appears in help and the JSON catalog. Built-in command names take precedence. The same hierarchy works through `mtm mermaid NAME`.
+Install an executable named `o-mermaid-NAME` on `PATH` to add `o-mermaid NAME`. It appears in help and the JSON catalog. Built-in command names take precedence. The same hierarchy works through `mtm mermaid NAME`.
 
 ## Updating the embedded engine
 
@@ -86,7 +95,7 @@ Bun is needed only when updating the engine, theme catalog, or bundled license f
 ```sh
 bun install --frozen-lockfile
 bun run bundle
-go build -o mtm-mermaid .
+go build -o o-mermaid .
 ```
 
 `package.json` pins Beautiful Mermaid; `bun.lock` pins its transitive dependencies. `renderer/build.js` builds the browser bundle and theme catalog together, including the original skill's `default` and `solarized` colors. Commit the regenerated files with dependency updates.
