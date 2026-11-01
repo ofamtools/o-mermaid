@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="o-mermaid">
+<title>o-mermaid</title>
+<style>.omermaidA-fin{transform-box:fill-box;transform-origin:50% 100%}@media (prefers-reduced-motion: no-preference){.omermaidA-fin{animation:omermaidA-flick 3.2s cubic-bezier(.45,0,.25,1) infinite}@keyframes omermaidA-flick{0%{transform:none}10%{transform:rotate(-12deg)}20%{transform:rotate(9deg)}28%{transform:rotate(-4deg)}36%,100%{transform:none}}}</style>
+<rect width="128" height="128" rx="28" fill="#1a1530"></rect>
+<g transform="translate(20 20)"><rect x="4" y="54" width="36" height="28" rx="7" fill="#b49cff"></rect><path d="M15 68H29" fill="none" stroke="#efeaff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M40 68H48C60 68 64 56 64 44V30" fill="none" stroke="#5fd0c2" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path><g class="omermaidA-fin"><path d="M64 32C58 24 52 18 42 15C53 10 61 12 64 18C67 12 75 10 86 15C76 18 70 24 64 32Z" fill="#5fd0c2"></path></g></g>
+</svg>
