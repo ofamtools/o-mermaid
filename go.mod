@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	charm.land/bubbletea/v2 v2.1.0
 	github.com/chromedp/chromedp v0.21.0
-	ofam.dev/ochazuke v0.84.0
+	ofam.dev/ochazuke v0.86.0
 	ofam.dev/oden v0.2.0
 )
 
@@ -21,6 +21,7 @@ require (
 	github.com/chromedp/cdproto v0.157.8 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
+	github.com/creack/pty v1.1.24 // indirect
 	github.com/go-json-experiment/json v0.0.0-20260213210345-44df1a37e875 // indirect
 	github.com/lucasb-eyer/go-colorful v1.4.1 // indirect
 	github.com/mattn/go-runewidth v0.0.30 // indirect
