@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	charm.land/bubbletea/v2 v2.1.0
 	github.com/chromedp/chromedp v0.21.0
-	ofam.dev/ochazuke v0.86.0
+	ofam.dev/ochazuke v0.89.0
 	ofam.dev/oden v0.2.0
 )
 
