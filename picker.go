@@ -82,9 +82,5 @@ func pickerModel(path, kind string) (*ochazuke.Model, *string, error) {
 	}
 	model := ochazuke.NewModel(r)
 	model.Title = "Mermaid: Ctrl-O browse · Enter accept · Ctrl-C cancel"
-	picker := ochazuke.NewPicker(r)
-	model.ModalViews["picker"] = ochazuke.ModalView{Title: "Choose a path", Render: func(_ *ochazuke.Runtime, _ *ochazuke.Instance, w, h int) ochazuke.Block {
-		return picker.ViewBlock(w, h)
-	}}
 	return model, selected, nil
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	tea "charm.land/bubbletea/v2"
 	"context"
 	"encoding/base64"
 	"os"
@@ -110,5 +111,23 @@ func TestPickerRejectsWrongKindAndAcceptsDirectory(t *testing.T) {
 	}
 	if *dirSelection != dir || !dirModel.Runtime.Quit {
 		t.Fatalf("selection = %q, quit = %v", *dirSelection, dirModel.Runtime.Quit)
+	}
+}
+
+// ctrl+o in the path field runs picker.open: the path picker opens on its
+// find source, and esc closes it again (no NewPicker shim is involved).
+func TestPickerCtrlOOpensPathPicker(t *testing.T) {
+	model, _, err := pickerModel(t.TempDir(), "file")
+	if err != nil {
+		t.Fatal(err)
+	}
+	model.Update(tea.WindowSizeMsg{Width: 100, Height: 30})
+	model.Update(tea.KeyPressMsg{Code: 'o', Mod: tea.ModCtrl})
+	if model.Runtime.Chooser(ochazuke.PathChooserKind) == nil {
+		t.Fatal("ctrl+o did not open the path picker")
+	}
+	model.Update(tea.KeyPressMsg{Code: tea.KeyEscape})
+	if model.Runtime.Chooser(ochazuke.PathChooserKind) != nil {
+		t.Fatal("esc did not close the path picker")
 	}
 }
