@@ -43,6 +43,16 @@ func pick(ctx context.Context, args []string) error {
 	return nil
 }
 
+// Namespace is the singular namespace o-mermaid declares (lexicon plan): the
+// picker's operations are mermaid.<noun>.<verb>.
+const Namespace = "mermaid"
+
+func init() {
+	if err := ochazuke.DeclareNamespace(Namespace); err != nil {
+		panic(err)
+	}
+}
+
 func pickerModel(path, kind string) (*ochazuke.Model, *string, error) {
 	r := ochazuke.NewRuntime()
 	r.Instance("selection")
@@ -52,7 +62,7 @@ func pickerModel(path, kind string) (*ochazuke.Model, *string, error) {
 		return nil, nil, err
 	}
 	selected := new(string)
-	r.Register(ochazuke.Operation{Verb: "accept", Noun: "selection", Description: "Accept the selected path and exit", Run: func(_ *ochazuke.Runtime, _ ochazuke.Context, _ ochazuke.Arguments) (any, error) {
+	r.Register(ochazuke.Operation{Key: "selection.accept", Description: "Accept the selected path and exit", Run: func(_ *ochazuke.Runtime, _ ochazuke.Context, _ ochazuke.Arguments) (any, error) {
 		path, err := filepath.Abs(string(input.Text))
 		if err != nil {
 			return nil, err

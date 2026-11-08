@@ -131,3 +131,17 @@ func TestPickerCtrlOOpensPathPicker(t *testing.T) {
 		t.Fatal("esc did not close the path picker")
 	}
 }
+
+func TestPickerDeclaresSingularNamespace(t *testing.T) {
+	m, _, err := pickerModel(t.TempDir(), "file")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ochazuke.DefaultNamespace != "mermaid" {
+		t.Fatalf("default namespace %q; want mermaid", ochazuke.DefaultNamespace)
+	}
+	op, ok := m.Runtime.Operations.Find("selection.accept")
+	if !ok || op.Namespace() != "mermaid" || op.Name() != "accept" {
+		t.Fatalf("selection.accept: %v %q %q", ok, op.Namespace(), op.Name())
+	}
+}
