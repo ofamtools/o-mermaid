@@ -127,8 +127,9 @@ func TestPickerCtrlOOpensPathPicker(t *testing.T) {
 		t.Fatal("ctrl+o did not open the path picker")
 	}
 	model.Update(tea.KeyPressMsg{Code: tea.KeyEscape})
+	model.Update(tea.KeyPressMsg{Code: 'q', Text: "q"})
 	if model.Runtime.Chooser(ochazuke.PathChooserKind) != nil {
-		t.Fatal("esc did not close the path picker")
+		t.Fatal("esc, q did not close the path picker")
 	}
 }
 
