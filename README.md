@@ -54,8 +54,8 @@ The checked-in renderer bundle means ordinary Go builds and installed binaries d
 ## Usage
 
 ```sh
-o mermaid themes
-o mermaid themes --json
+o mermaid themes                      # theme list: name, bg, fg (--format table at a terminal, JSON rows otherwise)
+o mermaid theme show tokyo-night      # one theme's colors
 o mermaid svg diagram.mmd
 o mermaid png diagram.mmd --theme tokyo-night
 o mermaid html diagram.mmd --padding 60
@@ -63,18 +63,20 @@ o mermaid convert diagram.mmd --format png --output ./exports/
 o mermaid wrap diagram.svg --output diagram.html --background '#1a1b26'
 ```
 
-`./exports/` must already exist. SVG, PNG, and HTML commands each produce only the requested format. Run both `svg` and `png` when both files are wanted.
+`./exports/` must already exist. `svg`, `png` and `html` are words for `convert` with the format set, and each produces only the requested format. Run both `svg` and `png` when both files are wanted.
 
-Input can be a positional filename, `--input FILE` / `-i FILE`, inline `--code TEXT` / `-c TEXT`, or `--input -` for stdin. Provide exactly one source. Flags may appear before or after the filename.
+The nouns are `theme` (the themes: `list`, `show`, `get`, `yank`, `history`) and `diagram` (`convert`, `wrap`), so `o mermaid diagram convert ...` is the long form of every command above and the palette, MCP and a host reach the same verbs (`o mermaid catalog`). Each answers JSON: `{path, format, bytes}`; `pick` stays a command because it opens a terminal page.
+
+Input can be a positional filename, `--input FILE`, inline `--code TEXT`, or `--input -` for stdin. Provide exactly one source. Flags may appear before or after the filename. The short flags `-i`, `-c`, `-o`, `-t`, `-s`, `-b` and `-p` are gone: use the long names.
 
 ```sh
-printf 'graph TD\n  A[Input] --> B[Output]\n' | o mermaid svg -i - -o diagram.svg
+printf 'graph TD\n  A[Input] --> B[Output]\n' | o mermaid svg --input - --output diagram.svg
 o mermaid svg diagram.mmd --output -
 ```
 
 Use a newline after the diagram header. The bundled upstream parser rejects one-line input such as `graph TD; A-->B`. Flowchart, sequence, state, class, and entity-relationship diagrams are supported; this is not the complete Mermaid.js grammar. See [syntax reference](skill/references/mermaid-syntax.md).
 
-Output defaults to the input's directory and stem with the selected extension. `--output` / `-o` accepts an exact file path, a basename without extension, an existing directory, or `-` for stdout. Inline and stdin input require an explicit output. Progress goes to stderr so stdout can carry SVG or PNG bytes.
+Output defaults to the input's directory and stem with the selected extension. `--output` accepts an exact file path, a basename without extension, an existing directory, or `-` for stdout. Inline and stdin input require an explicit output. The result `{path, format, bytes}` is printed as JSON; with `--output -` stdout carries the SVG, PNG or HTML bytes instead.
 
 Existing files require `--force`. Even with `--force`, output cannot be the input file or a hard/symbolic link to it. Parent directories are not created implicitly. Rendering has a one-minute deadline, adjustable with `--timeout 30s`; Ctrl-C cancels it.
 

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -12,7 +13,7 @@ import (
 	"ofam.dev/ochazuke"
 )
 
-func pick(ctx context.Context, args []string) error {
+func pick(ctx context.Context, args []string, stdout io.Writer) error {
 	f := flag.NewFlagSet("pick", flag.ContinueOnError)
 	kind := f.String("kind", "file", "file, dir or any")
 	path := f.String("path", "", "initial path")
@@ -39,7 +40,7 @@ func pick(ctx context.Context, args []string) error {
 	if *selected == "" {
 		return errors.New("selection cancelled")
 	}
-	fmt.Fprintln(os.Stdout, *selected)
+	fmt.Fprintln(stdout, *selected)
 	return nil
 }
 
@@ -93,4 +94,23 @@ func pickerModel(path, kind string) (*ochazuke.Model, *string, error) {
 	model := ochazuke.NewModel(r)
 	model.Title = "Mermaid: Ctrl-O browse · Enter accept · Ctrl-C cancel"
 	return model, selected, nil
+}
+
+// parseFlags parses flags that may come before or after the positional words.
+func parseFlags(f *flag.FlagSet, args []string) ([]string, error) {
+	var words []string
+	for len(args) > 0 {
+		if args[0] == "--" {
+			return append(words, args[1:]...), nil
+		}
+		if err := f.Parse(args); err != nil {
+			return nil, err
+		}
+		args = f.Args()
+		if len(args) > 0 {
+			words = append(words, args[0])
+			args = args[1:]
+		}
+	}
+	return words, nil
 }

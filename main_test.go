@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bytes"
 	tea "charm.land/bubbletea/v2"
 	"context"
 	"encoding/base64"
+	"encoding/json"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -11,6 +14,12 @@ import (
 
 	"ofam.dev/ochazuke"
 )
+
+// run is one o-mermaid invocation with empty standard input; its output is
+// discarded.
+func run(args []string) error {
+	return Main(context.Background(), args, strings.NewReader(""), io.Discard, io.Discard)
+}
 
 func TestWrapAndOverwriteProtection(t *testing.T) {
 	dir := t.TempDir()
@@ -21,7 +30,7 @@ func TestWrapAndOverwriteProtection(t *testing.T) {
 		t.Fatal(err)
 	}
 	args := []string{"wrap", input, "--output", dir, "--padding", "0"}
-	if err := commands(args).Run(context.Background()); err != nil {
+	if err := run(args); err != nil {
 		t.Fatal(err)
 	}
 	document, err := os.ReadFile(output)
@@ -33,20 +42,20 @@ func TestWrapAndOverwriteProtection(t *testing.T) {
 			t.Errorf("HTML missing %q", want)
 		}
 	}
-	if err := commands(args).Run(context.Background()); err == nil {
+	if err := run(args); err == nil {
 		t.Fatal("overwrote output without --force")
 	}
-	if err := commands(append(args, "--force")).Run(context.Background()); err != nil {
+	if err := run(append(args, "--force")); err != nil {
 		t.Fatal(err)
 	}
-	if err := commands([]string{"wrap", input, "--output", input, "--force"}).Run(context.Background()); err == nil {
+	if err := run([]string{"wrap", input, "--output", input, "--force"}); err == nil {
 		t.Fatal("allowed overwriting input")
 	}
 	alias := filepath.Join(dir, "alias.html")
 	if err := os.Symlink(input, alias); err != nil {
 		t.Fatal(err)
 	}
-	if err := commands([]string{"wrap", input, "--output", alias, "--force"}).Run(context.Background()); err == nil {
+	if err := run([]string{"wrap", input, "--output", alias, "--force"}); err == nil {
 		t.Fatal("allowed overwriting input through symlink")
 	}
 	after, err := os.ReadFile(input)
@@ -55,6 +64,30 @@ func TestWrapAndOverwriteProtection(t *testing.T) {
 	}
 	if string(after) != svg {
 		t.Fatalf("input changed: %s", after)
+	}
+}
+
+// themes is theme list through a bare word; theme show answers one theme's
+// colors; svg is convert with the format set (it reaches convert's checks).
+func TestThemeWordsAndFormatAliases(t *testing.T) {
+	var out bytes.Buffer
+	if err := Main(context.Background(), []string{"themes", "--json", "{}"}, strings.NewReader(""), &out, io.Discard); err != nil {
+		t.Fatal(err)
+	}
+	var rows []struct {
+		ID    string   `json:"id"`
+		Cells []string `json:"cells"`
+	}
+	if err := json.Unmarshal(out.Bytes(), &rows); err != nil || len(rows) < 2 || len(rows[0].Cells) != 3 {
+		t.Fatalf("themes %q %v", out.String(), err)
+	}
+	out.Reset()
+	if err := Main(context.Background(), []string{"theme", "show", "tokyo-night"}, strings.NewReader(""), &out, io.Discard); err != nil || !strings.Contains(out.String(), "#1a1b26") {
+		t.Fatalf("theme show %q %v", out.String(), err)
+	}
+	err := run([]string{"svg", "--code", "graph TD", "--theme", "missing"})
+	if err == nil || !strings.Contains(err.Error(), "unknown theme") {
+		t.Fatalf("svg reached convert: %v", err)
 	}
 }
 
@@ -67,7 +100,7 @@ func TestInvalidConversionDoesNotWrite(t *testing.T) {
 		{"svg", "--code", "graph TD", "--timeout", "0s"},
 		{"png", "--code", "graph TD", "--padding", "-1"},
 	} {
-		if err := commands(append(args, "--output", output)).Run(context.Background()); err == nil {
+		if err := run(append(args, "--output", output)); err == nil {
 			t.Errorf("accepted invalid arguments: %v", args)
 		}
 	}
